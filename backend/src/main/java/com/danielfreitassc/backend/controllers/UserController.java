@@ -1,9 +1,9 @@
 package com.danielfreitassc.backend.controllers;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.danielfreitassc.backend.configuration.OnCreate;
 import com.danielfreitassc.backend.dtos.ResponseMessageDTO;
 import com.danielfreitassc.backend.dtos.UserDTO;
 import com.danielfreitassc.backend.dtos.UserResponseDTO;
@@ -29,7 +30,7 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<ResponseMessageDTO>createUser(@RequestBody @Valid UserDTO userDTO) {
+    public ResponseEntity<ResponseMessageDTO>createUser(@RequestBody @Validated(OnCreate.class) UserDTO userDTO) {
         return userService.create(userDTO);
     }
 
