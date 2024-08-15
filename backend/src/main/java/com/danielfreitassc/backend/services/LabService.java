@@ -66,4 +66,26 @@ public class LabService {
     public List<LabListDTO> getAllSelects() {
        return labRepository.findAll().stream().map(labMapper::toList).toList();
     }
+
+    public ResponseEntity<ResponseMessageDTO> toAvailable(UUID id, LabDTO labDTO) {
+        Optional<LabEntity> lab = labRepository.findById(id); 
+        if(lab.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum laboratório com este ID encontrado.");
+        
+        LabEntity labEntity = lab.get();
+
+        if (labEntity.isAvailable() != labDTO.available()) {
+            labEntity.setAvailable(labDTO.available());
+            labRepository.save(labEntity);
+        }
+        
+        labRepository.save(labEntity);
+
+        if(labEntity.isAvailable()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Laboratório agora está disponível."));
+        } else if(!labEntity.isAvailable()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Laboratório agora está indisponível."));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Erro ao atualizar estado do laboratório"));
+        }
+    }
 }

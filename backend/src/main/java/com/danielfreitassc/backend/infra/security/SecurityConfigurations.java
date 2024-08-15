@@ -33,6 +33,9 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE,"/user/{username}").hasRole("ADMIN")
+                
+                .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
+
 
                 .requestMatchers(HttpMethod.POST,"/lab").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab").permitAll()
