@@ -36,6 +36,11 @@ public class SecurityConfigurations {
                 
                 .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
 
+                .requestMatchers(HttpMethod.POST,"/discipline").permitAll()
+                .requestMatchers(HttpMethod.GET,"/discipline").permitAll()
+                .requestMatchers(HttpMethod.GET,"/discipline/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/discipline/{id}").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/discipline/{id}").permitAll()
 
                 .requestMatchers(HttpMethod.POST,"/lab").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab").permitAll()
