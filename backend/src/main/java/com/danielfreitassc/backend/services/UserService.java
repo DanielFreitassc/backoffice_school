@@ -76,4 +76,5 @@ public class UserService {
         userRepository.delete(user.get());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Usuário removido com sucesso."));
     }
+    
 }

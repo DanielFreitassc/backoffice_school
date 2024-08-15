@@ -33,7 +33,16 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE,"/user/{username}").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.POST,"/lab").permitAll()
+                .requestMatchers(HttpMethod.GET,"/lab").permitAll()
+                .requestMatchers(HttpMethod.GET,"/lab/{id}").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/lab/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/lab/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET,"/lab/list").permitAll()
+                .requestMatchers(HttpMethod.GET,"/lab/name/{id}").permitAll()
                 
+
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 
                 // Configuração para endpoint de erro
