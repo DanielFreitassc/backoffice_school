@@ -34,14 +34,22 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.PATCH,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE,"/user/{username}").hasRole("ADMIN")
                 
-                .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
-
+                
                 .requestMatchers(HttpMethod.POST,"/discipline").permitAll()
                 .requestMatchers(HttpMethod.GET,"/discipline").permitAll()
                 .requestMatchers(HttpMethod.GET,"/discipline/{id}").permitAll()
                 .requestMatchers(HttpMethod.PUT,"/discipline/{id}").permitAll()
                 .requestMatchers(HttpMethod.DELETE,"/discipline/{id}").permitAll()
-
+                
+                
+                .requestMatchers(HttpMethod.POST,"/course").permitAll()
+                .requestMatchers(HttpMethod.GET,"/course").permitAll()
+                .requestMatchers(HttpMethod.GET,"/course/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/course/{id}").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/course/{id}").permitAll()
+                .requestMatchers(HttpMethod.PATCH,"/course/available/{id}").permitAll()
+                
+                
                 .requestMatchers(HttpMethod.POST,"/lab").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab/{id}").permitAll()
@@ -49,6 +57,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.PUT,"/lab/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab/list").permitAll()
                 .requestMatchers(HttpMethod.GET,"/lab/name/{id}").permitAll()
+                .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
                 
 
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()

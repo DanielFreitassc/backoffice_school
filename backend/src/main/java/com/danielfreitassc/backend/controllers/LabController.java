@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.danielfreitassc.backend.dtos.LabAvailable;
 import com.danielfreitassc.backend.dtos.LabDTO;
 import com.danielfreitassc.backend.dtos.LabListDTO;
 import com.danielfreitassc.backend.dtos.LabResponseDTO;
@@ -65,7 +66,7 @@ public class LabController {
     }
 
     @PatchMapping("available/{id}")
-    public ResponseEntity<ResponseMessageDTO> labAvailable(@PathVariable UUID id, @RequestBody LabDTO labDTO) {
+    public ResponseEntity<ResponseMessageDTO> labAvailable(@PathVariable UUID id, @RequestBody LabAvailable labDTO) {
         return labService.toAvailable(id, labDTO);
     }
 } 

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.danielfreitassc.backend.dtos.LabAvailable;
 import com.danielfreitassc.backend.dtos.LabDTO;
 import com.danielfreitassc.backend.dtos.LabListDTO;
 import com.danielfreitassc.backend.dtos.LabResponseDTO;
@@ -67,7 +68,7 @@ public class LabService {
        return labRepository.findAll().stream().map(labMapper::toList).toList();
     }
 
-    public ResponseEntity<ResponseMessageDTO> toAvailable(UUID id, LabDTO labDTO) {
+    public ResponseEntity<ResponseMessageDTO> toAvailable(UUID id, LabAvailable labDTO) {
         Optional<LabEntity> lab = labRepository.findById(id); 
         if(lab.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum laboratório com este ID encontrado.");
         
