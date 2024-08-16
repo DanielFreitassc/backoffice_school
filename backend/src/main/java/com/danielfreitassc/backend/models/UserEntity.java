@@ -44,6 +44,7 @@ public class UserEntity implements UserDetails{
     private String name;
     private String username;
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
