@@ -59,6 +59,9 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET,"/lab/name/{id}").permitAll()
                 .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
                 
+                  
+                .requestMatchers(HttpMethod.POST,"/lab-reserve").permitAll()
+                .requestMatchers(HttpMethod.GET,"/lab-reserve").permitAll()
 
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 
