@@ -32,7 +32,7 @@ public class UserService {
         UserEntity userEntity = userMapper.toEntity(userDTO);
         userEntity.setPassword(encryptedPassword);
         userRepository.save(userEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessageDTO("Usuário criado com sucesso."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessageDTO("Usuário criado com sucesso;"));
     }
 
     public List<UserResponseDTO> getAll() {
@@ -41,14 +41,14 @@ public class UserService {
 
     public UserResponseDTO getByUsername(String username) {
         Optional<UserEntity> user = userQueryRepositoy.findByUsername(username);
-        if(user.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum usuário com este ID cadastrado.");
+        if(user.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum usuário com este ID cadastrado;");
         return userMapper.toResponseDto(user.get());
     }
 
     public ResponseEntity<ResponseMessageDTO> patchUser(String username,  UserDTO userDTO) {
         Optional<UserEntity> userOptional = userQueryRepositoy.findByUsername(username);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado;");
         }
         
         UserEntity userEntity = userOptional.get();
@@ -67,14 +67,14 @@ public class UserService {
             userEntity.setPassword(encryptedPassword);
         }
         userRepository.save(userEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Usuário atualizado com sucesso."));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Usuário atualizado com sucesso;"));
     }
 
     public ResponseEntity<ResponseMessageDTO> delete(String username) {
         Optional<UserEntity> user = userQueryRepositoy.findByUsername(username);
-        if(user.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum usuário com este ID cadastrado.");
+        if(user.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum usuário com este ID cadastrado;");
         userRepository.delete(user.get());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Usuário removido com sucesso."));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageDTO("Usuário removido com sucesso;"));
     }
     
 }
