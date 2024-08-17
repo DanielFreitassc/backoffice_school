@@ -18,6 +18,7 @@ Base URL
 ```yml
 http://localhost:8080
 ```
+Método: POST
 
 Endpoint
 ```yml
@@ -45,6 +46,7 @@ Response (201 CREATED):
 # Buscar usuário
 
 Método: GET
+
 Endpoint 
 ```yml
 /user
@@ -71,7 +73,9 @@ Response (200 OK):
 ----
 
 # Buscar usuário por username
+
 Método: GET
+
 Endpoint 
 ```yml
 /user/{username}
@@ -88,7 +92,9 @@ Response (200 OK):
 ```
 ---
 # Atualizar usuário por username
+
 Método: PATCH
+
 Endpoint
 ```yml
 /user/{username}
@@ -109,7 +115,9 @@ Response (200 OK):
 ```
 ---
 # Remover usuário por username
+
 Método: DELETE
+
 Endpoint 
 ```yml
 /user/{username}
@@ -118,5 +126,27 @@ Response (200 OK):
 ```json
 {
     "message": "Usuário removido com sucesso;"
+}
+```
+---
+# Fazer login
+
+Método: POST
+
+Endpoint
+```yml
+/auth/login
+```
+Paylod
+```json
+{
+    "username":"admin",
+    "password":"Admin12345"
+}
+```
+Response (200 OK)
+```yml
+{
+    "token": "eyJhbGci...."
 }
 ```
