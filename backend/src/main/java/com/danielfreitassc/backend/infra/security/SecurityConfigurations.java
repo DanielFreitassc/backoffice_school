@@ -28,7 +28,7 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
 
-                .requestMatchers(HttpMethod.POST,"/user").permitAll()
+                .requestMatchers(HttpMethod.POST,"/user").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET,"/user").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET,"/user/{username}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH,"/user/{username}").hasRole("ADMIN")
@@ -50,14 +50,14 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.PATCH,"/course/available/{id}").permitAll()
                 
                 
-                .requestMatchers(HttpMethod.POST,"/lab").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab/{id}").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/lab/{id}").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/lab/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab/list").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab/name/{id}").permitAll()
-                .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").permitAll()
+                .requestMatchers(HttpMethod.POST,"/lab").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/lab").hasAnyRole("ADMIN","PROFESSOR")
+                .requestMatchers(HttpMethod.GET,"/lab/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,"/lab/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,"/lab/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/lab/list").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/lab/name/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").hasRole("ADMIN")
                 
                   
                 .requestMatchers(HttpMethod.POST,"/lab-reserve").permitAll()
@@ -67,6 +67,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.DELETE,"/lab-reserve/{id}").permitAll()
 
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET,"/validation").hasRole("ADMIN")
                 
                 // Configuração para endpoint de erro
                 .requestMatchers("/error").anonymous()
