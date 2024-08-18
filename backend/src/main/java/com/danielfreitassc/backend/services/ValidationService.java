@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.danielfreitassc.backend.dtos.ResponseMessageDTO;
 import com.danielfreitassc.backend.dtos.ValidationResponseDTO;
 
 import jakarta.servlet.http.HttpServletRequest;

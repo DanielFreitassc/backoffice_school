@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class AdminUserInitializer {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
     
     @Value("${admin.username}")
     private String adminUsername;
