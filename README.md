@@ -150,4 +150,3 @@ Response (200 OK)
     "token": "eyJhbGci...."
 }
 ```
-
