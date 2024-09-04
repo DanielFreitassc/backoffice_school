@@ -1,8 +1,9 @@
 import { Divider, Image, Text } from "@chakra-ui/react";
-import logo from "/logo.png";
-import * as S from "./styles";
 import { House, User } from "@phosphor-icons/react";
 import { Outlet, useNavigate } from "react-router-dom";
+import * as S from "./styles";
+import logo from "/logo.png";
+import { useEffect } from "react";
 
 interface ISidebarOption {
   icon: React.ReactNode;
@@ -18,6 +19,10 @@ export const Sidebar = () => {
     { icon: <House size={28} color="white" />, title: "Home", url: "/home" },
     { icon: <User size={28} color="white" />, title: "Usuários", url: "/user" },
   ];
+
+  useEffect(() => {
+    if (window.location.pathname === "/") navigate("user");
+  }, []);
 
   return (
     <S.Container>
