@@ -30,12 +30,21 @@ export const AxiosClient: IHttpClient = {
     }
   },
 
-  async update<T, K>(url: string, body: K): Promise<IHttpResponse<T>>{
+  async put<T, K>(url: string, body: K): Promise<IHttpResponse<T>>{
       const res: AxiosResponse<T> = await api.put(url, body);
       
       return {
         data: res.data,
         status: res.status
       }
+  },
+  
+  async patch<T, K>(url: string, body: K): Promise<IHttpResponse<T>>{
+    const res: AxiosResponse<T> = await api.patch(url, body);
+    
+    return {
+      data: res.data,
+      status: res.status
+    }
   }
 };

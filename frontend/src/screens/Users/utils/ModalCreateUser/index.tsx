@@ -11,12 +11,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { z } from "zod";
 import { FormInput } from "../../../../components/Form/Input";
 import { FormSelect } from "../../../../components/Form/Select";
-import { AxiosClient } from "../../../../ServiceClients/AxiosClient";
 import { UserService } from "../../../../services/user";
+import { permissionList } from "../../../../utils/constants";
 import { TUserPost } from "../../../../utils/types";
 
 interface IModalProps {
@@ -25,21 +24,19 @@ interface IModalProps {
   onSave: () => void;
 }
 
-const permissionList = [
-  { label: "Aluno", value: "ALUNO" },
-  { label: "Professor", value: "PROFESSOR" },
-  { label: "Admin", value: "ADMIN" },
-];
-
 export const ModalCreateUser = ({ isOpen, onClose, onSave }: IModalProps) => {
-  const userService = new UserService(AxiosClient);
+  const userService = new UserService();
+
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
 
   const mutation = useMutation({
-    mutationFn: userService.post.bind(userService),
+    mutationFn: (newUser: TUserPost) => userService.post(newUser),
     onSuccess: () => {
-      toast.success("Criado com sucesso!");
       onSave();
-      onClose();
+      handleClose();
     },
   });
 
@@ -79,18 +76,8 @@ export const ModalCreateUser = ({ isOpen, onClose, onSave }: IModalProps) => {
     },
   });
 
-  const handleClose = () => {
-    reset();
-    onClose();
-  };
-
   const handleCreate = (data: TFormData) => {
-    console.log(data);
-
-    const user: TUserPost = {
-      ...data,
-    };
-    mutation.mutate(user);
+    mutation.mutate(data);
   };
 
   return (

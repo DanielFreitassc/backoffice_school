@@ -1,73 +1,60 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Select,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { Pencil, PlusCircle } from "@phosphor-icons/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { IconButton } from "../../components/IconButton";
 import { PopoverDelete } from "../../components/Popover";
 import { InfoTable, InfoTableContent } from "../../components/Table";
 import { Title } from "../../components/Text/Title";
-import { AxiosClient } from "../../ServiceClients/AxiosClient";
-import { PermissionService } from "../../services/permission";
 import { UserService } from "../../services/user";
-import { DateFormater, intlNumberFormatter } from "../../utils/functions";
-import { ModalCreateUser } from "./utils/ModalCreateUser";
+import { DateFormater } from "../../utils/functions";
 import { IUser } from "../../utils/types";
+import { ModalCreateUser } from "./utils/ModalCreateUser";
 import { ModalUpdateUser } from "./utils/ModalUpdateUser";
 
 export const UserList = () => {
-  // const userService = new UserService(AxiosClient);
-  // const permissionService = new PermissionService(AxiosClient);
+  const userService = new UserService();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  // const {
-  //   isOpen: updateIsOpen,
-  //   onClose: updateClose,
-  //   onOpen: updateOnOpen,
-  // } = useDisclosure();
-  // const [selectedUser, setSelectedUser] = useState<IUser>();
+  const {
+    isOpen: updateIsOpen,
+    onClose: updateClose,
+    onOpen: updateOnOpen,
+  } = useDisclosure();
+  const [selectedUser, setSelectedUser] = useState<IUser>();
 
-  // const [selectedPermission, setSelectedPermission] = useState("");
+  const {
+    data: userList,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => userService.getUserList(),
+  });
 
-  // const {
-  //   data: userList,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery({
-  //   queryKey: ["users"],
-  //   queryFn: () => userService.getUserList({ role: selectedPermission }),
-  // });
-
-  // const { data: permissionList } = useQuery({
-  //   queryKey: ["permission"],
-  //   queryFn: () => permissionService.getPermissionSelect(),
-  // });
-
-  // const mutation = useMutation({
-  //   mutationFn: (id: string) => userService.delete(id),
-  //   onSuccess: () => {
-  //     toast.success("Apagado com sucesso!");
-  //     refetch();
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: (id: string) => userService.delete(id),
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   return (
     <>
-      {/* {updateIsOpen && selectedUser && (
+      {updateIsOpen && selectedUser && (
         <ModalUpdateUser
           isOpen={updateIsOpen}
           onClose={updateClose}
-          onSave={() => ""}
+          onSave={() => refetch()}
           user={selectedUser}
         />
-      )} */}
-      {<ModalCreateUser isOpen={isOpen} onClose={onClose} onSave={() => ""} />}
+      )}
+      {
+        <ModalCreateUser
+          isOpen={isOpen}
+          onClose={onClose}
+          onSave={() => refetch()}
+        />
+      }
       <Flex justify="space-between">
         <Title label="Usuários" />
         <IconButton
@@ -76,37 +63,14 @@ export const UserList = () => {
           onClick={onOpen}
         />
       </Flex>
-      {/* <Box bgColor="#f9f9f988" borderRadius={5} p={5} mt={5}>
-        <Text as="h4" fontSize="xl">
-          Filtros
-        </Text>
-        <Flex mt={5} gap={5}>
-          <Select
-            width="300px"
-            bgColor="white"
-            onChange={(evt) => setSelectedPermission(evt.target.value)}
-            placeholder="Selecione a permissão"
-          >
-            <option value="">Todas</option>
-            {permissionList?.map(({ name, role }) => (
-              <option key={role} value={role}>
-                {name}
-              </option>
-            ))}
-          </Select>
-          <Button onClick={() => refetch()}>Filtrar</Button>
-        </Flex>
-      </Box> */}
-      {/* {!isLoading && userList && (
+      {!isLoading && userList && (
         <Box minWidth="100%" pt={10}>
           {userList.length > 0 && (
             <InfoTable
               headProps={[
                 { label: "Nome" },
-                { label: "Email" },
-                { label: "Salario" },
+                { label: "Username" },
                 { label: "Permissão" },
-                { label: "Carga Horária" },
                 { label: "Criação" },
                 { label: "Ações" },
               ]}
@@ -116,22 +80,19 @@ export const UserList = () => {
                   key={user.id}
                   colsBody={[
                     { ceil: user.name },
-                    { ceil: user.email },
-                    { ceil: intlNumberFormatter(user.wage) },
+                    { ceil: user.username },
                     { ceil: user.role },
-                    { ceil: user.workload },
                     { ceil: DateFormater(user.createdAt) },
                     {
                       ceil: (
                         <Flex>
                           <PopoverDelete
                             section="Usuário"
-                            onClick={() => mutation.mutate(user.id)}
+                            onClick={() => mutation.mutate(user.username)}
                           />
                           <Button
                             variant="none"
                             onClick={() => {
-                              console.log(user);
                               setSelectedUser(user);
                               updateOnOpen();
                             }}
@@ -146,8 +107,8 @@ export const UserList = () => {
               ))}
             </InfoTable>
           )}
-        </Box> */}
-      {/* )} */}
+        </Box>
+      )}
     </>
   );
 };

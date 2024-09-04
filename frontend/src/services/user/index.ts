@@ -1,47 +1,31 @@
-import { IUser, IUserPost, TUserPost } from "../../utils/types";
+import { AxiosClient } from "../../ServiceClients/AxiosClient";
+import { IUser, IUserPost, TUserPost, TUserPut } from "../../utils/types";
 import { IHttpClient } from "../types";
 
 export class UserService {
-  private httpClient: IHttpClient;
+  private httpClient: IHttpClient = AxiosClient;
 
-  constructor(HttpClient: IHttpClient) {
-    this.httpClient = HttpClient;
-  }
-
-  async getUserList({ role }: { role: string }): Promise<IUser[]> {
+  async getUserList(): Promise<IUser[]> {
     try {
-      const res = await this.httpClient.get<IUser[]>(`/users?role=${role}`);
+      const res = await this.httpClient.get<IUser[]>(`/user`);
       return res.data;
-    } catch (err) {
-      console.log(err);
+    } catch {
       return [];
     }
   }
 
-  async post(user: TUserPost): Promise<TUserPost | void> {
-    try {
-      const res = await this.httpClient.post<TUserPost>("/user", user);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
+  async post(user: TUserPost): Promise<TUserPost> {
+    const res = await this.httpClient.post<TUserPost>("/user", user);
+    return res.data;
   }
 
-  // async delete(id: string): Promise<TUserPost> {
-  //   try {
-  //     const res = await this.httpClient.delete<IUserPost>(`/users/${id}`);
-  //     return res.data;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+  async delete(username: string): Promise<TUserPost> {
+    const res = await this.httpClient.delete<IUserPost>(`/user/${username}`);
+    return res.data;
+  }
 
-  async update(user: IUserPost): Promise<TUserPost | void> {
-    try {
-      const res = await this.httpClient.update<TUserPost>("/users", user);
+  async update(user: TUserPut): Promise<TUserPut> {
+      const res = await this.httpClient.patch<TUserPost>(`/user/${user.username}`, user);
       return res.data;
-    } catch (err) {
-      console.log(err);
-    }
   }
 }

@@ -38,8 +38,8 @@ export const Login = () => {
     setLoading(true);
     await api
       .post("/auth/login", data)
-      .then((res) => {
-        signIn(res.data.token);
+      .then(({ data }) => {
+        signIn(data.token);
 
         navigate("/user");
       })

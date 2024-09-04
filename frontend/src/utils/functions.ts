@@ -16,7 +16,6 @@ interface ICatchHandler {
 }
 
 export const catchHandler = (err: ICatchHandler) => {
-  toast.dismiss();
   if (err.response?.data) {
     if (err.response.data.message) toast.error(err.response.data.message);
     else toast.error(`Erro: ${err.response.status}`);
@@ -29,11 +28,8 @@ export const catchHandler = (err: ICatchHandler) => {
 };
 
 export const thenHandler = (res: IThenHandler) => {
-  toast.dismiss();
   if (res.data) {
     toast.success(res.data.message);
-  } else {
-    toast.success("Sucesso");
   }
 };
 

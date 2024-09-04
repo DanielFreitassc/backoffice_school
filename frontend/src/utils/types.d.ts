@@ -3,14 +3,15 @@ export interface IUser {
   name: string;
   username: string;
   role: string;
+  createdAt: string;
 }
 
 interface IUserPost extends IUser {
   password: string;
 }
 
-export type TUserPost = Omit<IUserPost, "id">;
-export type TUserPut = Omit<IUserPost, "id", "password">;
+export type TUserPost = Omit<IUserPost, "id" | "createdAt">;
+export type TUserPut = Omit<IUserPost, "id" | "password" | 'createdAt'>;
 
 export interface ISelect {
   label: string;

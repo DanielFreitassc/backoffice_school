@@ -21,8 +21,7 @@ api.interceptors.response.use(
     },
     (error) => {
         catchHandler(error);
-        console.log(error);
         
-        return 
+        return Promise.reject(error)
     }
 )

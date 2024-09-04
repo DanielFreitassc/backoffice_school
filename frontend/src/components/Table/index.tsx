@@ -27,8 +27,8 @@ export const InfoTable = ({ headProps, children, ...rest }: ITableHead) => (
   <TableContainer maxWidth="100%">
     <Table variant="simple" minWidth="100%">
       <Thead {...rest}>
-        {headProps.map(({ label }) => (
-          <Th>{label}</Th>
+        {headProps.map(({ label }, i) => (
+          <Th key={i}>{label}</Th>
         ))}
       </Thead>
       <Tbody>{children}</Tbody>

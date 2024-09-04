@@ -9,17 +9,14 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { FormInput } from "../../../../components/Form/Input";
 import { FormSelect } from "../../../../components/Form/Select";
-import { AxiosClient } from "../../../../ServiceClients/AxiosClient";
-import { PermissionService } from "../../../../services/permission";
-import { unmaskValue, valueMask } from "../../../../utils/functions";
 import { UserService } from "../../../../services/user";
-import { IUser, TUserPost } from "../../../../utils/types";
-import { toast } from "react-toastify";
+import { permissionList } from "../../../../utils/constants";
+import { IUser, TUserPut } from "../../../../utils/types";
 
 interface IModalProps {
   onClose: () => void;
@@ -34,18 +31,11 @@ export const ModalUpdateUser = ({
   onSave,
   user,
 }: IModalProps) => {
-  const permissionService = new PermissionService(AxiosClient);
-  const userService = new UserService(AxiosClient);
-
-  const { data: permissionList } = useQuery({
-    queryKey: ["permission"],
-    queryFn: () => permissionService.getPermissionSelect(),
-  });
+  const userService = new UserService();
 
   const mutation = useMutation({
-    mutationFn: userService.update.bind(userService),
+    mutationFn: (userUpdated: TUserPut) => userService.update(userUpdated),
     onSuccess: () => {
-      toast.success("Criado com sucesso!");
       onSave();
       onClose();
     },
@@ -53,9 +43,7 @@ export const ModalUpdateUser = ({
 
   const schema = z.object({
     name: z.string().min(3, "No minimo 3 caracteres"),
-    email: z.string().email("Precisa ser um email").min(1, "Campo obrigatório"),
-    workload: z.string().min(1, "Campo obrigatório"),
-    wage: z.string().min(1, "Campo obrigatório"),
+    username: z.string().min(1, "Campo obrigatório"),
     role: z.string().min(1, "Campo obrigatório"),
   });
 
@@ -64,36 +52,23 @@ export const ModalUpdateUser = ({
   const {
     register,
     control,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<TFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: user.email,
+      username: user.username,
       name: user.name,
       role: user.role,
-      wage: valueMask(String(user.wage)),
-      workload: user.workload,
     },
   });
 
-  const handleClose = () => {
-    reset();
-    onClose();
-  };
-
   const handleUpdate = (data: TFormData) => {
-    const user: TUserPost = {
-      ...data,
-      wage: unmaskValue(data.wage),
-    };
-
-    mutation.mutate(user);
+    mutation.mutate(data);
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Editar Usuário</ModalHeader>
@@ -109,35 +84,10 @@ export const ModalUpdateUser = ({
               />
 
               <FormInput
-                label="Email"
-                {...register("email")}
-                error={errors.email?.message}
-                placeholder="Ex: josesilva@exemplo.com"
-              />
-
-              <Controller
-                name="wage"
-                control={control}
-                render={({ field }) => (
-                  <FormInput
-                    label="Salario"
-                    {...field}
-                    error={errors.wage?.message}
-                    placeholder="Ex: 1.200,00"
-                    onChange={(evt) => {
-                      const formatedValue = valueMask(evt.target.value);
-
-                      field.onChange(formatedValue);
-                    }}
-                  />
-                )}
-              />
-
-              <FormInput
-                label="Carga Horária"
-                {...register("workload")}
-                error={errors.workload?.message}
-                placeholder="Ex: 8h"
+                label="Username"
+                {...register("username")}
+                error={errors.username?.message}
+                placeholder="Ex: josesilva"
               />
 
               <Controller
@@ -150,9 +100,9 @@ export const ModalUpdateUser = ({
                     {...field}
                   >
                     <option value="">Selecione</option>
-                    {permissionList?.map(({ name, role }) => (
-                      <option key={role} value={role}>
-                        {name}
+                    {permissionList?.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {label}
                       </option>
                     ))}
                   </FormSelect>
