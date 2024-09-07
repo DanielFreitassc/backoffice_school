@@ -1,6 +1,7 @@
 package com.danielfreitassc.backend.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,18 +40,18 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("{username}")
-    public UserResponseDTO getUserById(@PathVariable String username) {
-        return userService.getByUsername(username);
+    @GetMapping("{id}")
+    public UserResponseDTO getUserById(@PathVariable UUID id) {
+        return userService.getById(id);
     }
 
-    @PatchMapping("{username}")
-    public ResponseEntity<ResponseMessageDTO> patchUser(@PathVariable String username, @RequestBody @Valid UserDTO userDTO) {
-        return userService.patchUser(username, userDTO);
+    @PatchMapping("{id}")
+    public ResponseEntity<ResponseMessageDTO> patchUser(@PathVariable UUID id, @RequestBody @Valid UserDTO userDTO) {
+        return userService.patchUser(id, userDTO);
     }
 
-    @DeleteMapping("{username}")
-    public ResponseEntity<ResponseMessageDTO>  deleteUser(@PathVariable String username) {
-        return userService.delete(username);
+    @DeleteMapping("{id}")
+    public ResponseEntity<ResponseMessageDTO>  deleteUser(@PathVariable UUID id) {
+        return userService.delete(id);
     }
 }
