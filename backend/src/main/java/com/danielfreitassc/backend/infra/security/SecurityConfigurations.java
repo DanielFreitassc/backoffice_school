@@ -35,19 +35,19 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.DELETE,"/user/{id}").hasRole("ADMIN")
                 
                 
-                .requestMatchers(HttpMethod.POST,"/discipline").permitAll()
+                .requestMatchers(HttpMethod.POST,"/discipline").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET,"/discipline").permitAll()
                 .requestMatchers(HttpMethod.GET,"/discipline/{id}").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/discipline/{id}").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/discipline/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/discipline/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,"/discipline/{id}").hasRole("ADMIN")
                 
                 
-                .requestMatchers(HttpMethod.POST,"/course").permitAll()
+                .requestMatchers(HttpMethod.POST,"/course").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET,"/course").permitAll()
                 .requestMatchers(HttpMethod.GET,"/course/{id}").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/course/{id}").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/course/{id}").permitAll()
-                .requestMatchers(HttpMethod.PATCH,"/course/available/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/course/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,"/course/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH,"/course/available/{id}").hasRole("ADMIN")
                 
                 
                 .requestMatchers(HttpMethod.POST,"/lab").hasRole("ADMIN")
@@ -60,14 +60,14 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.PATCH,"/lab/available/{id}").hasRole("ADMIN")
                 
                   
-                .requestMatchers(HttpMethod.POST,"/lab-reserve").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab-reserve").permitAll()
-                .requestMatchers(HttpMethod.GET,"/lab-reserve/{id}").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/lab-reserve/{id}").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/lab-reserve/{id}").permitAll()
+                .requestMatchers(HttpMethod.POST,"/lab-reserve").hasAnyRole("ADMIN","PROFESSOR")
+                .requestMatchers(HttpMethod.GET,"/lab-reserve").hasAnyRole("ADMIN","PROFESSOR")
+                .requestMatchers(HttpMethod.GET,"/lab-reserve/{id}").hasAnyRole("ADMIN","PROFESSOR")
+                .requestMatchers(HttpMethod.PUT,"/lab-reserve/{id}").hasAnyRole("ADMIN","PROFESSOR")
+                .requestMatchers(HttpMethod.DELETE,"/lab-reserve/{id}").hasAnyRole("ADMIN","PROFESSOR")
 
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .requestMatchers(HttpMethod.GET,"/validation").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/validation").hasAnyRole("ADMIN","PROFESSOR","ALUNO")
 
 
                 //Permite o swagger
