@@ -12,6 +12,11 @@ Apos terminar o processo de build rode o docker image.
 docker run -dti -p 8080:8080 --name api api 
 ```
 Apos o termino abra uma Ferramenta de teste de API de sua prefêrencia. 
+
+Você pode executar o projeto e abrir o Swagger que é gera uma documentação automática 
+
+[Link🚀](http://localhost:8080/swagger-ui/index.html)
+
 --- 
 # Cadastrar usuário
 Base URL
