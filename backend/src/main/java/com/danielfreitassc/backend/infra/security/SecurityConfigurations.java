@@ -68,7 +68,14 @@ public class SecurityConfigurations {
 
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET,"/validation").hasRole("ADMIN")
-                
+
+
+                //Permite o swagger
+                .requestMatchers(HttpMethod.GET,"/v3/api-docs/swagger-config").permitAll()
+                .requestMatchers(HttpMethod.GET,"/v3/api-docs").permitAll()
+                .requestMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
+
+
                 // Configuração para endpoint de erro
                 .requestMatchers("/error").anonymous()
                 .anyRequest().authenticated()
